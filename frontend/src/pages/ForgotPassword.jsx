@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './AuthForm.css'
+import { API_URL } from '../config'
 
 function ForgotPassword() {
   const [email, setEmail] = useState('')

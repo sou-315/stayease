@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import HotelCard from '../components/HotelCard'
 import FilterBar from '../components/FilterBar'
 import './HotelListing.css'
+import { API_URL } from '../config'
 
 function HotelListing() {
   const [hotels, setHotels] = useState([])

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import './AuthForm.css'
+import { API_URL } from '../config'
 
 function Signup() {
   const navigate = useNavigate()

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import './AdminBookings.css'
-
+import { API_URL } from '../config'
 function AdminBookings() {
   const { token } = useAuth()
   const [bookings, setBookings] = useState([])

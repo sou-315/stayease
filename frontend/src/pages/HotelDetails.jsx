@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import './HotelDetails.css'
+import { API_URL } from '../config'
 
 function HotelDetails() {
   const { id } = useParams()
