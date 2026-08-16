@@ -5,10 +5,12 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+if (file_exists(__DIR__ . '/.env')) {
+    $dotenv = Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+}
 
-define('JWT_SECRET', $_ENV['JWT_SECRET']);
+define('JWT_SECRET', $_ENV['JWT_SECRET'] ?? getenv('JWT_SECRET'));
 
 function generateToken($userId, $email, $role) {
     $payload = [
