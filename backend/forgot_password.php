@@ -65,7 +65,7 @@ $updateStmt->bind_param("ssi", $token, $expiry, $user['id']);
 $updateStmt->execute();
 $updateStmt->close();
 
-$resetLink = "http://localhost:5173/reset-password?token=" . $token;
+$resetLink = "https://stayease-swart.vercel.app/reset-password?token=" . $token;
 
 // Send the email via Mailtrap
 $mail = new PHPMailer(true);
