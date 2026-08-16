@@ -5,18 +5,22 @@ import { API_URL } from '../config'
 const BookingsContext = createContext()
 
 export function BookingsProvider({ children }) {
-  const { token, isLoggedIn } = useAuth()
+  const { token, isLoggedIn, authLoading } = useAuth()
   const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (authLoading) {
+      return
+    }
+
     if (!isLoggedIn) {
       setBookings([])
       setLoading(false)
       return
     }
 
-    fetch(`${API_URL}/hotels.php`, {
+    fetch(`${API_URL}/bookings.php`, {
       headers: { 'Authorization': `Bearer ${token}` },
     })
       .then((res) => res.json())
