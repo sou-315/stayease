@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: https://stayease-swart.vercel.app");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
@@ -10,10 +10,8 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
-if (file_exists(__DIR__ . '/.env')) {
-    $dotenv = Dotenv::createImmutable(__DIR__);
-    $dotenv->load();
-}
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -88,7 +86,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-   "Authorization: Bearer " . ($_ENV['CHARGILY_SECRET_KEY'] ?? getenv('CHARGILY_SECRET_KEY')),
+    "Authorization: Bearer " . $_ENV['CHARGILY_SECRET_KEY'],
     "Content-Type: application/json",
 ]);
 

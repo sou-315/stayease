@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import './AdminHotels.css'
+import { API_URL } from '../config'
 
 function AdminHotels() {
   const { token } = useAuth()
@@ -10,7 +11,7 @@ function AdminHotels() {
 
   const loadHotels = () => {
     setLoading(true)
-    fetch('http://localhost/stayease-api/hotels.php')
+    fetch(`${API_URL}/hotels.php`)
       .then((res) => res.json())
       .then((data) => {
         setHotels(data)
@@ -25,7 +26,7 @@ function AdminHotels() {
   const handleDelete = (id, name) => {
     if (!window.confirm(`Delete "${name}"? This cannot be undone.`)) return
 
-    fetch(`http://localhost/stayease-api/hotels.php?id=${id}`, {
+   fetch(`${API_URL}/hotels.php?id=${id}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` },
     })

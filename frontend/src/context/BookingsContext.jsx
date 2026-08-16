@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useAuth } from './AuthContext'
+import { API_URL } from '../config'
 
 const BookingsContext = createContext()
 
@@ -15,7 +16,7 @@ export function BookingsProvider({ children }) {
       return
     }
 
-    fetch('http://localhost/stayease-api/bookings.php', {
+    fetch(`${API_URL}/hotels.php`, {
       headers: { 'Authorization': `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -29,7 +30,7 @@ export function BookingsProvider({ children }) {
   }, [isLoggedIn, token])
 
   const addBooking = (newBooking) => {
-  return fetch('http://localhost/stayease-api/bookings.php', {
+return fetch(`${API_URL}/bookings.php`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -46,7 +47,7 @@ export function BookingsProvider({ children }) {
       return res.json()
     })
     .then((createData) => {
-      return fetch('http://localhost/stayease-api/bookings.php', {
+return fetch(`${API_URL}/bookings.php`, {
         headers: { 'Authorization': `Bearer ${token}` },
       })
         .then((res) => res.json())
@@ -58,13 +59,13 @@ export function BookingsProvider({ children }) {
 }
 
   const cancelBooking = (id) => {
-    return fetch(`http://localhost/stayease-api/bookings.php?id=${id}`, {
+return fetch(`${API_URL}/bookings.php?id=${id}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then(() => {
-        return fetch('http://localhost/stayease-api/bookings.php', {
+return fetch(`${API_URL}/bookings.php`, {
           headers: { 'Authorization': `Bearer ${token}` },
         })
           .then((res) => res.json())

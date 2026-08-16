@@ -15,7 +15,7 @@ function HotelListing() {
   const [sortBy, setSortBy] = useState('none')
 
   useEffect(() => {
-    fetch('http://localhost/stayease-api/hotels.php')
+    fetch(`${API_URL}/hotels.php`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch hotels')
         return res.json()

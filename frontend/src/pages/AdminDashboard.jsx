@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import './AdminDashboard.css'
+import { API_URL } from '../config'
 
 function AdminDashboard() {
   const { token } = useAuth()
@@ -9,11 +10,11 @@ function AdminDashboard() {
   const [bookingCount, setBookingCount] = useState(null)
 
   useEffect(() => {
-    fetch('http://localhost/stayease-api/hotels.php')
+    fetch(`${API_URL}/hotels.php`)
       .then((res) => res.json())
       .then((data) => setHotelCount(data.length))
 
-    fetch('http://localhost/stayease-api/bookings.php?all=true', {
+fetch(`${API_URL}/bookings.php?all=true`, {
       headers: { 'Authorization': `Bearer ${token}` },
     })
       .then((res) => res.json())

@@ -14,7 +14,7 @@ function HotelDetails() {
     setLoading(true)
     setError(null)
 
-    fetch(`http://localhost/stayease-api/hotels.php?id=${id}`)
+    fetch(`${API_URL}/hotels.php`)
       .then((res) => {
         if (!res.ok) throw new Error('Hotel not found')
         return res.json()

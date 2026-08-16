@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import './AdminHotels.css'
+import { API_URL } from '../config'
 
 function AdminHotelForm() {
   const { id } = useParams()
@@ -28,7 +29,7 @@ function AdminHotelForm() {
   useEffect(() => {
     if (!isEditMode) return
 
-    fetch(`http://localhost/stayease-api/hotels.php?id=${id}`)
+    fetch(`${API_URL}/hotels.php`)
       .then((res) => res.json())
       .then((data) => {
         setName(data.name)
@@ -59,8 +60,8 @@ function AdminHotelForm() {
     }
 
     const url = isEditMode
-      ? `http://localhost/stayease-api/hotels.php?id=${id}`
-      : 'http://localhost/stayease-api/hotels.php'
+     ? `${API_URL}/hotels.php?id=${id}`
+  : `${API_URL}/hotels.php`
 
     fetch(url, {
       method: isEditMode ? 'PUT' : 'POST',
@@ -89,7 +90,7 @@ function AdminHotelForm() {
     e.preventDefault()
     if (!newRoomType || !newRoomName || !newRoomPrice) return
 
-    fetch('http://localhost/stayease-api/rooms.php', {
+fetch(`${API_URL}/rooms.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -118,7 +119,7 @@ function AdminHotelForm() {
   const handleDeleteRoom = (roomId) => {
     if (!window.confirm('Delete this room?')) return
 
-    fetch(`http://localhost/stayease-api/rooms.php?id=${roomId}`, {
+   fetch(`${API_URL}/rooms.php?id=${roomId}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` },
     })

@@ -14,7 +14,7 @@ function ForgotPassword() {
     setMessage('')
     setSubmitting(true)
 
-    fetch('http://localhost/stayease-api/forgot_password.php', {
+    fetch(`${API_URL}/hotels.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),

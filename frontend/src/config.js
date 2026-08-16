@@ -1,0 +1,1 @@
+export const API_URL = 'https://stayease-production-38bf.up.railway.app';

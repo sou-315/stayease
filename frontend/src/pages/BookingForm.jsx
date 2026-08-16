@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import BookingConfirmation from '../components/BookingConfirmation'
 import './BookingForm.css'
 import { calculateNights, calculateTotal } from '../utils/bookingCalculations'
+import { API_URL } from '../config'
 
 function BookingForm() {
   const { id } = useParams()
@@ -26,7 +27,7 @@ function BookingForm() {
     setLoading(true)
     setError(null)
 
-    fetch(`http://localhost/stayease-api/hotels.php?id=${id}`)
+    fetch(`${API_URL}/hotels.php?id=${id}`)
       .then((res) => {
         if (!res.ok) throw new Error('Hotel not found')
         return res.json()
@@ -107,7 +108,7 @@ const total = selectedRoom ? calculateTotal(nights, selectedRoom.price) : 0
 
       addBooking(newBooking)
         .then((bookingId) => {
-          return fetch('http://localhost/stayease-api/create_checkout.php', {
+        return fetch(`${API_URL}/create_checkout.php`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import './BookingResult.css'
+import { API_URL } from '../config'
 
 function BookingSuccess() {
   const [searchParams] = useSearchParams()
@@ -13,7 +14,7 @@ function BookingSuccess() {
   useEffect(() => {
     if (!bookingId || !token) return
 
-    fetch(`http://localhost/stayease-api/bookings.php?all=false`, {
+fetch(`${API_URL}/bookings.php?all=false`, {
       headers: { 'Authorization': `Bearer ${token}` },
     })
       .then((res) => res.json())

@@ -8,7 +8,7 @@ function AdminBookings() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('http://localhost/stayease-api/bookings.php?all=true', {
+    fetch(`${API_URL}/bookings.php?all=true`, {
       headers: { 'Authorization': `Bearer ${token}` },
     })
       .then((res) => res.json())

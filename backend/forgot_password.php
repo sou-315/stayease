@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: https://stayease-swart.vercel.app");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
@@ -11,10 +11,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Dotenv\Dotenv;
 
-if (file_exists(__DIR__ . '/.env')) {
-    $dotenv = Dotenv::createImmutable(__DIR__);
-    $dotenv->load();
-}
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -74,12 +72,12 @@ $mail = new PHPMailer(true);
 
 try {
     $mail->isSMTP();
-   $mail->Host = $_ENV['MAILTRAP_HOST'] ?? getenv('MAILTRAP_HOST');
-$mail->SMTPAuth = true;
-$mail->Username = $_ENV['MAILTRAP_USERNAME'] ?? getenv('MAILTRAP_USERNAME');
-$mail->Password = $_ENV['MAILTRAP_PASSWORD'] ?? getenv('MAILTRAP_PASSWORD');
-$mail->SMTPSecure = 'tls';
-$mail->Port = $_ENV['MAILTRAP_PORT'] ?? getenv('MAILTRAP_PORT');
+    $mail->Host = $_ENV['MAILTRAP_HOST'];
+    $mail->SMTPAuth = true;
+    $mail->Username = $_ENV['MAILTRAP_USERNAME'];
+    $mail->Password = $_ENV['MAILTRAP_PASSWORD'];
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = $_ENV['MAILTRAP_PORT'];
 
     $mail->setFrom('noreply@stayease.com', 'StayEase');
     $mail->addAddress($email, $user['name']);
