@@ -1,0 +1,4 @@
+{
+  "provider": "php",
+  "phpExtensions": ["mysqli", "pdo_mysql"]
+}
