@@ -1,0 +1,38 @@
+.booking-result-page {
+  max-width: 500px;
+  margin: 80px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.booking-result-card {
+  padding: 32px;
+  border-radius: 8px;
+}
+
+.booking-result-card.success {
+  background: #e6f4ea;
+  color: #256029;
+}
+
+.booking-result-card.pending {
+  background: #fff8e1;
+  color: #8a6d00;
+}
+
+.booking-result-card.cancelled {
+  background: #fdecea;
+  color: #a53125;
+}
+
+.booking-result-card h1 {
+  margin-bottom: 12px;
+}
+
+.booking-result-card a {
+  display: inline-block;
+  margin-top: 16px;
+  font-weight: 600;
+  color: inherit;
+  text-decoration: underline;
+}
