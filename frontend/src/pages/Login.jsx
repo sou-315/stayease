@@ -18,7 +18,7 @@ function Login() {
     setError('')
     setSubmitting(true)
 
-    fetch(`${API_URL}/hotels.php`, {
+    fetch(`${API_URL}/login.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
