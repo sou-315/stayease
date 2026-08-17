@@ -86,7 +86,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    "Authorization: Bearer " . $_ENV['CHARGILY_SECRET_KEY'],
+"Authorization: Bearer " . getenv('CHARGILY_SECRET_KEY'),
     "Content-Type: application/json",
 ]);
 
