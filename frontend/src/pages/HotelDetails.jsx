@@ -15,7 +15,7 @@ function HotelDetails() {
     setLoading(true)
     setError(null)
 
-    fetch(`${API_URL}/hotels.php`)
+fetch(`${API_URL}/hotels.php?id=${id}`)
       .then((res) => {
         if (!res.ok) throw new Error('Hotel not found')
         return res.json()
