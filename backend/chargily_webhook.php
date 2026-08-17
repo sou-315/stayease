@@ -5,7 +5,7 @@ require __DIR__ . '/vendor/autoload.php';
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotenv->safeLoad();
 
 $rawPayload = file_get_contents("php://input");
 $signature = $_SERVER['HTTP_SIGNATURE'] ?? '';
@@ -17,8 +17,7 @@ if (!$signature) {
 }
 
 // Verify the signature matches — proves this request really came from Chargily
-$expectedSignature = hash_hmac('sha256', $rawPayload, $_ENV['CHARGILY_SECRET_KEY']);
-
+$expectedSignature = hash_hmac('sha256', $rawPayload, getenv('CHARGILY_SECRET_KEY'));
 if (!hash_equals($expectedSignature, $signature)) {
     http_response_code(403);
     echo json_encode(["error" => "Invalid signature."]);

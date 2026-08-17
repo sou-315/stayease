@@ -77,7 +77,7 @@ $payload = [
     "currency" => "dzd",
   "success_url" => "https://stayease-swart.vercel.app/booking-success?bookingId=" . $bookingId,
 "failure_url" => "https://stayease-swart.vercel.app/booking-cancelled?bookingId=" . $bookingId,
-   "webhook_endpoint" => "https://dawn-viscous-kosher.ngrok-free.dev/stayease-api/chargily_webhook.php",
+   "webhook_endpoint" => "https://stayease-production-38bf.up.railway.app/chargily_webhook.php",
     "metadata" => ["booking_id" => $bookingId],
 ];
 
