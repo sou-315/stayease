@@ -75,8 +75,8 @@ $amountInDzd = (int) round($booking['total'] * $usdToDzd);
 $payload = [
     "amount" => $amountInDzd,
     "currency" => "dzd",
-    "success_url" => "http://localhost:5173/booking-success?bookingId=" . $bookingId,
-    "failure_url" => "http://localhost:5173/booking-cancelled?bookingId=" . $bookingId,
+  "success_url" => "https://stayease-swart.vercel.app/booking-success?bookingId=" . $bookingId,
+"failure_url" => "https://stayease-swart.vercel.app/booking-cancelled?bookingId=" . $bookingId,
    "webhook_endpoint" => "https://dawn-viscous-kosher.ngrok-free.dev/stayease-api/chargily_webhook.php",
     "metadata" => ["booking_id" => $bookingId],
 ];
