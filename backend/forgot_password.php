@@ -12,7 +12,7 @@ use PHPMailer\PHPMailer\Exception;
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotenv->safeLoad();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -72,12 +72,12 @@ $mail = new PHPMailer(true);
 
 try {
     $mail->isSMTP();
-    $mail->Host = $_ENV['MAILTRAP_HOST'];
+    $mail->Host = getenv('MAILTRAP_HOST');
     $mail->SMTPAuth = true;
-    $mail->Username = $_ENV['MAILTRAP_USERNAME'];
-    $mail->Password = $_ENV['MAILTRAP_PASSWORD'];
+    $mail->Username = getenv('MAILTRAP_USERNAME');
+    $mail->Password = getenv('MAILTRAP_PASSWORD');
     $mail->SMTPSecure = 'tls';
-    $mail->Port = $_ENV['MAILTRAP_PORT'];
+    $mail->Port = getenv('MAILTRAP_PORT');
 
     $mail->setFrom('noreply@stayease.com', 'StayEase');
     $mail->addAddress($email, $user['name']);
