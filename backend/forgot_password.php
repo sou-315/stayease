@@ -71,13 +71,14 @@ $resetLink = "https://stayease-swart.vercel.app/reset-password?token=" . $token;
 $mail = new PHPMailer(true);
 
 try {
-    $mail->isSMTP();
-    $mail->Host = getenv('MAILTRAP_HOST');
-    $mail->SMTPAuth = true;
-    $mail->Username = getenv('MAILTRAP_USERNAME');
-    $mail->Password = getenv('MAILTRAP_PASSWORD');
-    $mail->SMTPSecure = 'tls';
-    $mail->Port = getenv('MAILTRAP_PORT');
+   $mail->isSMTP();
+$mail->Host = getenv('MAILTRAP_HOST');
+$mail->SMTPAuth = true;
+$mail->Username = getenv('MAILTRAP_USERNAME');
+$mail->Password = getenv('MAILTRAP_PASSWORD');
+$mail->SMTPSecure = 'smtps';
+$mail->Port = getenv('MAILTRAP_PORT');
+$mail->Timeout = 10;
 
     $mail->setFrom('noreply@stayease.com', 'StayEase');
     $mail->addAddress($email, $user['name']);
