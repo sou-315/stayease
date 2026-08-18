@@ -1,76 +1,84 @@
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import './AuthForm.css'
-import { API_URL } from '../config'
+<?php
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: https://stayease-swart.vercel.app");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
 
-function Signup() {
-  const navigate = useNavigate()
-  const { login } = useAuth()
+require "db.php";
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [submitting, setSubmitting] = useState(false)
+$method = $_SERVER['REQUEST_METHOD'];
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setError('')
-    setSubmitting(true)
-
-    fetch(`${API_URL}/signup.php`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password }),
-    })
-      .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
-      .then(({ ok, data }) => {
-        setSubmitting(false)
-        if (!ok) {
-          setError(data.error || 'Signup failed.')
-          return
-        }
-        navigate('/login')
-      })
-      .catch(() => {
-        setSubmitting(false)
-        setError('Something went wrong. Please try again.')
-      })
-  }
-
-  return (
-    <div className="auth-page">
-      <h1>Create an account</h1>
-
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <label>
-          Name
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-        </label>
-
-        <label>
-          Email
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </label>
-
-        <label>
-          Password
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </label>
-
-        {error && <p className="auth-error">{error}</p>}
-
-        <button type="submit" className="auth-submit-btn" disabled={submitting}>
-          {submitting ? 'Creating account...' : 'Sign Up'}
-        </button>
-      </form>
-
-      <p className="auth-switch">
-        Already have an account? <Link to="/login">Log in</Link>
-      </p>
-    </div>
-  )
+if ($method === 'OPTIONS') {
+    http_response_code(200);
+    exit;
 }
 
-export default Signup
+if ($method !== 'POST') {
+    http_response_code(405);
+    echo json_encode(["error" => "Method not allowed"]);
+    exit;
+}
+
+$data = json_decode(file_get_contents("php://input"), true);
+
+$name = trim($data['name'] ?? '');
+$email = trim($data['email'] ?? '');
+$password = $data['password'] ?? '';
+
+// Basic validation
+if (!$name || !$email || !$password) {
+    http_response_code(400);
+    echo json_encode(["error" => "Name, email, and password are all required."]);
+    exit;
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(400);
+    echo json_encode(["error" => "Invalid email address."]);
+    exit;
+}
+
+if (strlen($password) < 6) {
+    http_response_code(400);
+    echo json_encode(["error" => "Password must be at least 6 characters."]);
+    exit;
+}
+
+// Check if email already exists
+$checkStmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+$checkStmt->bind_param("s", $email);
+$checkStmt->execute();
+$checkResult = $checkStmt->get_result();
+
+if ($checkResult->num_rows > 0) {
+    http_response_code(409);
+    echo json_encode(["error" => "An account with this email already exists."]);
+    $checkStmt->close();
+    $conn->close();
+    exit;
+}
+$checkStmt->close();
+
+// Hash the password — never store plain text
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+$stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+$stmt->bind_param("sss", $name, $email, $hashedPassword);
+
+if ($stmt->execute()) {
+    echo json_encode([
+        "success" => true,
+        "user" => [
+            "id" => $stmt->insert_id,
+            "name" => $name,
+            "email" => $email
+        ]
+    ]);
+} else {
+    http_response_code(500);
+    echo json_encode(["error" => "Failed to create account."]);
+}
+
+$stmt->close();
+$conn->close();
+?>
