@@ -19,19 +19,20 @@ function Signup() {
     setError('')
     setSubmitting(true)
 
-    fetch(`${API_URL}/hotels.php`, {
+    fetch(`${API_URL}/signup.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password }),
     })
-.then(({ ok, data }) => {
-  setSubmitting(false)
-  if (!ok) {
-    setError(data.error || 'Signup failed.')
-    return
-  }
-  navigate('/login')
-})
+      .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+      .then(({ ok, data }) => {
+        setSubmitting(false)
+        if (!ok) {
+          setError(data.error || 'Signup failed.')
+          return
+        }
+        navigate('/login')
+      })
       .catch(() => {
         setSubmitting(false)
         setError('Something went wrong. Please try again.')
